@@ -14,44 +14,44 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="hero-bg shadow-lg sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+    <nav className="glass-panel sticky top-0 z-50 border-b border-t-0 border-x-0">
+      <div className="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
-            <Wrench className="w-5 h-5 text-white" />
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center border border-white/10">
+            <Wrench className="w-4.5 h-4.5 text-green-400" />
           </div>
-          <span className="brand text-white text-xl font-bold tracking-tight">
-            Skill<span className="text-green-300">Bridge</span>
+          <span className="brand text-white text-lg font-bold tracking-tight">
+            Skill<span className="text-gradient">Bridge</span>
           </span>
         </Link>
 
         {/* Desktop actions */}
-        <div className="hidden sm:flex items-center gap-3">
+        <div className="hidden sm:flex items-center gap-2">
           {profile ? (
             <>
               <Link
                 to={profile.role === 'worker' ? '/dashboard' : '/search'}
-                className="text-green-200 text-sm font-medium hover:text-white transition-colors"
+                className="text-white/60 text-sm font-medium hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5"
               >
                 {profile.role === 'worker' ? 'Dashboard' : 'Find Workers'}
               </Link>
               <Link
                 to="/bookings"
-                className="text-green-200 text-sm font-medium hover:text-white transition-colors"
+                className="text-white/60 text-sm font-medium hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5"
               >
                 Bookings
               </Link>
               <Link
                 to="/profile"
-                className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 text-white text-sm font-semibold px-3 py-1.5 rounded-full transition-colors"
+                className="flex items-center gap-1.5 bg-white/8 hover:bg-white/12 text-white text-sm font-medium px-3 py-1.5 rounded-full transition-all border border-white/10"
               >
-                <User className="w-4 h-4" />
+                <User className="w-3.5 h-3.5 text-green-400" />
                 {profile.name?.split(' ')[0]}
               </Link>
               <button
                 onClick={handleSignOut}
-                className="text-green-300 hover:text-white transition-colors p-1.5"
+                className="text-white/40 hover:text-red-400 transition-colors p-2 rounded-lg hover:bg-white/5"
                 title="Sign out"
               >
                 <LogOut className="w-4 h-4" />
@@ -61,13 +61,13 @@ export default function Navbar() {
             <>
               <Link
                 to="/login"
-                className="text-green-200 text-sm font-medium hover:text-white transition-colors"
+                className="text-white/60 text-sm font-medium hover:text-white transition-colors px-3 py-1.5"
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
-                className="btn-secondary text-sm px-4 py-2"
+                className="btn-secondary text-xs px-4 py-2"
               >
                 + Register as Worker
               </Link>
@@ -77,42 +77,42 @@ export default function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="sm:hidden text-white p-1"
+          className="sm:hidden text-white/70 hover:text-white p-1.5 rounded-lg hover:bg-white/5 transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
         >
-          {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="sm:hidden bg-[#0d3d2b] border-t border-white/10 px-4 py-3 flex flex-col gap-2">
+        <div className="sm:hidden glass-panel border-t px-4 py-3 flex flex-col gap-1">
           {profile ? (
             <>
               <Link
                 to={profile.role === 'worker' ? '/dashboard' : '/search'}
-                className="text-green-200 text-sm py-2 hover:text-white"
+                className="text-white/60 text-sm py-2.5 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 {profile.role === 'worker' ? 'Dashboard' : 'Find Workers'}
               </Link>
               <Link
                 to="/bookings"
-                className="text-green-200 text-sm py-2 hover:text-white"
+                className="text-white/60 text-sm py-2.5 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Bookings
               </Link>
               <Link
                 to="/profile"
-                className="text-green-200 text-sm py-2 hover:text-white"
+                className="text-white/60 text-sm py-2.5 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Profile
               </Link>
               <button
                 onClick={() => { handleSignOut(); setMenuOpen(false); }}
-                className="text-red-300 text-sm py-2 text-left hover:text-red-200"
+                className="text-red-400/70 text-sm py-2.5 px-3 text-left rounded-lg hover:text-red-400 hover:bg-white/5 transition-colors"
               >
                 Sign Out
               </button>
@@ -121,14 +121,14 @@ export default function Navbar() {
             <>
               <Link
                 to="/login"
-                className="text-green-200 text-sm py-2 hover:text-white"
+                className="text-white/60 text-sm py-2.5 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Sign In
               </Link>
               <Link
                 to="/register"
-                className="text-green-200 text-sm py-2 hover:text-white"
+                className="text-white/60 text-sm py-2.5 px-3 rounded-lg hover:text-white hover:bg-white/5 transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
                 Register as Worker

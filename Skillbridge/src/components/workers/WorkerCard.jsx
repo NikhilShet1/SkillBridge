@@ -9,17 +9,8 @@ const categoryConfig = {
   Other:        { emoji: '🔨', badge: 'badge-other' },
 };
 
-const avatarColors = [
-  'bg-amber-100 text-amber-700',
-  'bg-blue-100 text-blue-700',
-  'bg-indigo-100 text-indigo-700',
-  'bg-pink-100 text-pink-700',
-  'bg-teal-100 text-teal-700',
-];
-
 export default function WorkerCard({ worker, index = 0 }) {
   const config = categoryConfig[worker.category] || categoryConfig.Other;
-  const colorClass = avatarColors[index % avatarColors.length];
   const initial = worker.name?.charAt(0) || '?';
 
   return (
@@ -27,15 +18,15 @@ export default function WorkerCard({ worker, index = 0 }) {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
-          <div className={`w-12 h-12 rounded-full ${colorClass} flex items-center justify-center text-lg font-bold shrink-0`}>
+          <div className="w-11 h-11 rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-base font-semibold text-green-400 shrink-0">
             {initial}
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900 text-base leading-tight">
+            <h3 className="font-semibold text-white text-sm leading-tight">
               {worker.name}
             </h3>
             {worker.experience_years > 0 && (
-              <p className="text-xs text-gray-400 mt-0.5">
+              <p className="text-xs text-white/35 mt-0.5">
                 {worker.experience_years} yrs experience
               </p>
             )}
@@ -47,33 +38,33 @@ export default function WorkerCard({ worker, index = 0 }) {
       </div>
 
       {/* Details */}
-      <div className="flex flex-col gap-1.5 text-sm text-gray-600">
+      <div className="flex flex-col gap-1.5 text-sm">
         {worker.area && (
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
-            {worker.area}
+          <div className="flex items-center gap-2 text-white/45">
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
+            <span className="text-xs">{worker.area}</span>
           </div>
         )}
-        <div className="flex items-center gap-2">
-          <Star className="w-4 h-4 text-gray-400 shrink-0" />
-          <span className="text-yellow-500 font-medium">
+        <div className="flex items-center gap-2 text-white/45">
+          <Star className="w-3.5 h-3.5 shrink-0" />
+          <span className="text-yellow-400/80 font-medium text-xs">
             {worker.avg_rating > 0 ? worker.avg_rating.toFixed(1) : 'New'}
           </span>
-          <span className="text-gray-400">
-            ({worker.review_count || 0} reviews)
+          <span className="text-white/25 text-xs">
+            ({worker.review_count || 0})
           </span>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+      <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/6">
         <div>
-          <span className="text-xl font-bold text-gray-900">₹{worker.daily_rate}</span>
-          <span className="text-xs text-gray-400"> / day</span>
+          <span className="text-lg font-bold text-white">₹{worker.daily_rate}</span>
+          <span className="text-xs text-white/30 ml-1">/ day</span>
         </div>
         <Link
           to={`/book/${worker.id}?service=${worker.service_id}`}
-          className="btn-primary text-sm px-5 py-2"
+          className="btn-primary text-xs px-4 py-2"
         >
           Book Now
         </Link>

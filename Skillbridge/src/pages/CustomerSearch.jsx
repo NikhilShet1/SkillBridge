@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
 import { Link } from 'react-router-dom';
 import L from 'leaflet';
-import { Search, Filter, List, Map as MapIcon, Star, MapPin } from 'lucide-react';
+import { Search, List, Map as MapIcon, Star, MapPin } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useGeoLocation } from '../hooks/useGeoLocation';
 import WorkerCard from '../components/workers/WorkerCard';
@@ -16,34 +16,33 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
 });
 
-// Custom colored markers
 function createIcon(color) {
   return L.divIcon({
     className: 'custom-marker',
     html: `<div style="
       background: ${color};
-      width: 32px; height: 32px;
+      width: 28px; height: 28px;
       border-radius: 50% 50% 50% 0;
       transform: rotate(-45deg);
-      border: 3px solid white;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      border: 2px solid rgba(255,255,255,0.6);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
       display: flex; align-items: center; justify-content: center;
     "><div style="
       transform: rotate(45deg);
       color: white;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: bold;
     ">●</div></div>`,
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-    popupAnchor: [0, -32],
+    iconSize: [28, 28],
+    iconAnchor: [14, 28],
+    popupAnchor: [0, -28],
   });
 }
 
 const categoryIcons = {
   Carpenter:   createIcon('#d97706'),
   Electrician: createIcon('#2563eb'),
-  Plumbing:    createIcon('#4f46e5'),
+  Plumbing:    createIcon('#6366f1'),
   Painter:     createIcon('#db2777'),
   Other:       createIcon('#6b7280'),
 };
@@ -96,19 +95,19 @@ export default function CustomerSearch() {
   return (
     <div className="has-bottom-nav min-h-[calc(100vh-64px)] flex flex-col">
       {/* Header */}
-      <div className="hero-bg text-white py-6 px-4">
+      <div className="py-6 px-4">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-xl font-bold mb-3">Find Workers Near You</h1>
+          <h1 className="text-lg font-bold text-white mb-3">Find Workers Near You</h1>
 
           {/* Search bar */}
-          <div className="flex items-center bg-white rounded-xl overflow-hidden shadow-md">
-            <Search className="w-5 h-5 text-gray-400 ml-3 shrink-0" />
+          <div className="flex items-center glass-panel rounded-xl overflow-hidden">
+            <Search className="w-4 h-4 text-white/25 ml-3 shrink-0" />
             <input
               type="text"
               placeholder="Search by name, skill, area…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-3 py-2.5 text-gray-700 text-sm outline-none bg-transparent"
+              className="w-full px-3 py-2.5 text-white text-sm outline-none bg-transparent placeholder-white/25"
             />
           </div>
 
@@ -118,10 +117,10 @@ export default function CustomerSearch() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-all border ${
                   selectedCategory === cat
-                    ? 'bg-white text-green-800 shadow-md'
-                    : 'bg-white/15 text-green-100 hover:bg-white/25'
+                    ? 'bg-white/10 text-white border-white/20'
+                    : 'bg-transparent text-white/35 border-white/6 hover:text-white/55 hover:border-white/12'
                 }`}
               >
                 {cat === 'Carpenter' && '🪚 '}{cat === 'Electrician' && '⚡ '}
@@ -134,15 +133,15 @@ export default function CustomerSearch() {
       </div>
 
       {/* View toggle */}
-      <div className="max-w-5xl mx-auto w-full px-4 py-3 flex items-center justify-between">
-        <p className="text-sm text-gray-500">
+      <div className="max-w-5xl mx-auto w-full px-4 py-2 flex items-center justify-between">
+        <p className="text-xs text-white/25">
           {filteredWorkers.length} worker{filteredWorkers.length !== 1 ? 's' : ''} found
         </p>
-        <div className="flex bg-gray-100 rounded-lg p-0.5">
+        <div className="flex bg-white/5 rounded-lg p-0.5 border border-white/6">
           <button
             onClick={() => setViewMode('map')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
-              viewMode === 'map' ? 'bg-white shadow-sm text-gray-800' : 'text-gray-500'
+              viewMode === 'map' ? 'bg-white/10 text-white' : 'text-white/30'
             }`}
           >
             <MapIcon className="w-3.5 h-3.5" /> Map
@@ -150,7 +149,7 @@ export default function CustomerSearch() {
           <button
             onClick={() => setViewMode('list')}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
-              viewMode === 'list' ? 'bg-white shadow-sm text-gray-800' : 'text-gray-500'
+              viewMode === 'list' ? 'bg-white/10 text-white' : 'text-white/30'
             }`}
           >
             <List className="w-3.5 h-3.5" /> List
@@ -161,7 +160,7 @@ export default function CustomerSearch() {
       {/* Content */}
       <div className="flex-1 max-w-5xl mx-auto w-full px-4 pb-6">
         {viewMode === 'map' ? (
-          <div className="rounded-2xl overflow-hidden shadow-md border border-gray-200" style={{ height: '400px' }}>
+          <div className="rounded-2xl overflow-hidden border border-white/10" style={{ height: '400px' }}>
             <MapContainer
               center={[location.lat, location.lng]}
               zoom={13}
@@ -174,20 +173,18 @@ export default function CustomerSearch() {
               />
               <RecenterMap lat={location.lat} lng={location.lng} />
 
-              {/* 10km radius circle */}
               <Circle
                 center={[location.lat, location.lng]}
                 radius={10000}
                 pathOptions={{
-                  color: '#16a34a',
-                  fillColor: '#16a34a',
-                  fillOpacity: 0.05,
-                  weight: 1.5,
+                  color: '#22c55e',
+                  fillColor: '#22c55e',
+                  fillOpacity: 0.04,
+                  weight: 1,
                   dashArray: '8 4',
                 }}
               />
 
-              {/* Worker markers */}
               {filteredWorkers
                 .filter((w) => w.location_lat && w.location_lng)
                 .map((worker) => (
@@ -198,15 +195,15 @@ export default function CustomerSearch() {
                   >
                     <Popup>
                       <div className="p-1 min-w-[180px]">
-                        <h3 className="font-bold text-sm text-gray-900">{worker.name}</h3>
-                        <p className="text-xs text-gray-500 mb-1">{worker.category} • {worker.area}</p>
+                        <h3 className="font-bold text-sm">{worker.name}</h3>
+                        <p className="text-xs opacity-60 mb-1">{worker.category} • {worker.area}</p>
                         <div className="flex items-center gap-1 text-xs mb-2">
-                          <Star className="w-3 h-3 text-yellow-500" />
+                          <Star className="w-3 h-3 text-yellow-400" />
                           <span className="font-medium">{worker.avg_rating > 0 ? worker.avg_rating : 'New'}</span>
-                          <span className="text-gray-400">({worker.review_count} reviews)</span>
+                          <span className="opacity-40">({worker.review_count} reviews)</span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="font-bold text-green-700">₹{worker.daily_rate}/day</span>
+                          <span className="font-bold text-green-400">₹{worker.daily_rate}/day</span>
                           <Link
                             to={`/book/${worker.id}?service=${worker.service_id}`}
                             className="bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full hover:bg-green-700"
@@ -222,11 +219,10 @@ export default function CustomerSearch() {
           </div>
         ) : null}
 
-        {/* List view (or below map) */}
         {(viewMode === 'list' || viewMode === 'map') && (
           <div className={viewMode === 'map' ? 'mt-6' : ''}>
             {viewMode === 'map' && filteredWorkers.length > 0 && (
-              <h3 className="text-sm font-semibold text-gray-700 mb-3">Workers List</h3>
+              <h3 className="text-xs font-medium text-white/30 mb-3 uppercase tracking-wider">Workers List</h3>
             )}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filteredWorkers.map((worker, i) => (
@@ -236,9 +232,9 @@ export default function CustomerSearch() {
 
             {!loading && filteredWorkers.length === 0 && (
               <div className="text-center py-12">
-                <MapPin className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-                <h3 className="text-lg font-semibold text-gray-600">No workers found</h3>
-                <p className="text-sm text-gray-400 mt-1">Try adjusting your filters or search term.</p>
+                <MapPin className="w-10 h-10 text-white/15 mx-auto mb-3" />
+                <h3 className="text-base font-semibold text-white/50">No workers found</h3>
+                <p className="text-sm text-white/25 mt-1">Try adjusting your filters.</p>
               </div>
             )}
           </div>

@@ -33,11 +33,9 @@ export default function LoginPage() {
         if (!formData.name.trim()) throw new Error('Name is required');
         if (formData.password.length < 6) throw new Error('Password must be at least 6 characters');
         await signUp(formData.email, formData.password, formData.name, formData.role, formData.phone);
-        // After signup, redirect based on role
         navigate(formData.role === 'worker' ? '/dashboard' : '/search');
       } else {
         await signIn(formData.email, formData.password);
-        // fetchProfile will run via onAuthStateChange; navigate after a brief delay
         setTimeout(() => {
           const profile = useAuthStore.getState().profile;
           if (profile?.role === 'worker') {
@@ -57,19 +55,19 @@ export default function LoginPage() {
   return (
     <div className="min-h-[calc(100vh-64px)] flex flex-col">
       {/* Header */}
-      <div className="hero-bg text-white py-10 px-4 text-center">
-        <div className="flex items-center justify-center gap-2 mb-3">
-          <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-            <Wrench className="w-6 h-6 text-white" />
+      <div className="py-12 px-4 text-center">
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="w-10 h-10 rounded-xl bg-white/8 flex items-center justify-center border border-white/10">
+            <Wrench className="w-5 h-5 text-green-400" />
           </div>
         </div>
-        <p className="text-green-300 text-xs font-semibold uppercase tracking-widest mb-1">
+        <p className="text-green-400/60 text-xs font-semibold uppercase tracking-[0.2em] mb-2">
           {isSignUp ? 'Join the platform' : 'Welcome back'}
         </p>
-        <h1 className="text-2xl sm:text-3xl font-extrabold">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
           {isSignUp ? 'Create Account' : 'Sign In'}
         </h1>
-        <p className="text-green-100 text-sm mt-1 max-w-xs mx-auto">
+        <p className="text-white/35 text-sm mt-2 max-w-xs mx-auto">
           {isSignUp
             ? 'Join SkillBridge and connect with your local community.'
             : 'Access your SkillBridge account.'}
@@ -77,18 +75,18 @@ export default function LoginPage() {
       </div>
 
       {/* Form */}
-      <main className="flex-1 max-w-md mx-auto w-full px-4 py-8">
+      <main className="flex-1 max-w-md mx-auto w-full px-4 pb-8">
         <div className="card p-6 sm:p-8 fade-up">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {isSignUp && (
               <>
                 {/* Name */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Full Name <span className="text-red-500">*</span>
+                  <label className="block text-xs font-medium text-white/50 mb-1.5">
+                    Full Name <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" />
                     <input
                       type="text"
                       name="name"
@@ -103,11 +101,11 @@ export default function LoginPage() {
 
                 {/* Phone */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="block text-xs font-medium text-white/50 mb-1.5">
                     Phone Number
                   </label>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" />
                     <input
                       type="tel"
                       name="phone"
@@ -121,17 +119,17 @@ export default function LoginPage() {
 
                 {/* Role */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    I am a <span className="text-red-500">*</span>
+                  <label className="block text-xs font-medium text-white/50 mb-1.5">
+                    I am a <span className="text-red-400">*</span>
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     <button
                       type="button"
                       onClick={() => setFormData({ ...formData, role: 'customer' })}
-                      className={`py-3 px-4 rounded-xl text-sm font-semibold border-2 transition-all ${
+                      className={`py-3 px-4 rounded-xl text-sm font-semibold border transition-all ${
                         formData.role === 'customer'
-                          ? 'border-green-500 bg-green-50 text-green-700'
-                          : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                          ? 'border-green-500/50 bg-green-500/10 text-green-400'
+                          : 'border-white/10 text-white/40 hover:border-white/20 hover:bg-white/3'
                       }`}
                     >
                       🏠 Customer
@@ -139,10 +137,10 @@ export default function LoginPage() {
                     <button
                       type="button"
                       onClick={() => setFormData({ ...formData, role: 'worker' })}
-                      className={`py-3 px-4 rounded-xl text-sm font-semibold border-2 transition-all ${
+                      className={`py-3 px-4 rounded-xl text-sm font-semibold border transition-all ${
                         formData.role === 'worker'
-                          ? 'border-green-500 bg-green-50 text-green-700'
-                          : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                          ? 'border-green-500/50 bg-green-500/10 text-green-400'
+                          : 'border-white/10 text-white/40 hover:border-white/20 hover:bg-white/3'
                       }`}
                     >
                       🔧 Worker
@@ -154,11 +152,11 @@ export default function LoginPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Email <span className="text-red-500">*</span>
+              <label className="block text-xs font-medium text-white/50 mb-1.5">
+                Email <span className="text-red-400">*</span>
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" />
                 <input
                   type="email"
                   name="email"
@@ -173,11 +171,11 @@ export default function LoginPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Password <span className="text-red-500">*</span>
+              <label className="block text-xs font-medium text-white/50 mb-1.5">
+                Password <span className="text-red-400">*</span>
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
@@ -191,7 +189,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/50"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -200,7 +198,7 @@ export default function LoginPage() {
 
             {/* Error */}
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3">
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl px-4 py-3">
                 ⚠️ {error}
               </div>
             )}
@@ -209,11 +207,11 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full py-3 text-base mt-1 flex items-center justify-center gap-2"
+              className="btn-primary w-full py-3 text-sm mt-1 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" />
                   {isSignUp ? 'Creating Account…' : 'Signing In…'}
                 </>
               ) : (
@@ -223,12 +221,12 @@ export default function LoginPage() {
           </form>
 
           {/* Toggle */}
-          <div className="text-center mt-5 pt-4 border-t border-gray-100">
-            <p className="text-sm text-gray-500">
+          <div className="text-center mt-5 pt-4 border-t border-white/6">
+            <p className="text-sm text-white/30">
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
               <button
                 onClick={() => { setIsSignUp(!isSignUp); setError(''); }}
-                className="text-green-700 font-semibold hover:underline"
+                className="text-green-400 font-semibold hover:text-green-300 transition-colors"
               >
                 {isSignUp ? 'Sign In' : 'Sign Up'}
               </button>
