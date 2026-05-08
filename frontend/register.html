@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register as Worker – SkillBridge</title>
+  <script src='https://cdn.tailwindcss.com'></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- 🔥 Firebase SDK (v9 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .brand { font-family: 'Sora', sans-serif; }
+    h1, h2 { font-family: 'Sora', sans-serif; }
+
+    .hero-bg {
+      background: linear-gradient(135deg, #0f4c35 0%, #1a7a55 50%, #0d3d2b 100%);
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 0.65rem;
+      font-size: 0.9rem;
+      color: #1f2937;
+      outline: none;
+      background: #f9fafb;
+      transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+    .input-field:focus {
+      border-color: #16a34a;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+    }
+    .input-field::placeholder { color: #9ca3af; }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+    }
+    .submit-btn:active:not(:disabled) { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.5s ease both; }
+
+    @keyframes popIn {
+      0%   { opacity: 0; transform: scale(0.85); }
+      70%  { transform: scale(1.04); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .pop-in { animation: popIn 0.45s ease both; }
+
+    .register-btn {
+      background: white;
+      color: #0f4c35;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .register-btn:hover { background: #f0fdf4; transform: translateY(-1px); }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- ───── NAVBAR ───── -->
+  <nav class="hero-bg shadow-lg sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.472-2.472a3.75 3.75 0 0 0-5.304-5.304L5.88 9.902" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21l4.5-4.5" />
+          </svg>
+        </div>
+        <span class="brand text-white text-xl font-bold tracking-tight">Skill<span class="text-green-300">Bridge</span></span>
+      </a>
+      <a href="index.html" class="register-btn brand font-semibold text-sm px-4 py-2 rounded-full shadow">
+        ← Back to Home
+      </a>
+    </div>
+  </nav>
+
+  <!-- ───── HEADER STRIP ───── -->
+  <div class="hero-bg text-white py-8 px-4 text-center">
+    <p class="text-green-300 text-xs font-semibold uppercase tracking-widest mb-1">Join the platform</p>
+    <h1 class="text-2xl sm:text-3xl font-extrabold">Register as a Worker</h1>
+    <p class="text-green-100 text-sm mt-1 max-w-xs mx-auto">Get booked by hundreds of customers in Mangaluru.</p>
+  </div>
+
+  <!-- ───── FORM CARD ───── -->
+  <main class="max-w-lg mx-auto px-4 py-8">
+    <div id="form-section" class="fade-up bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+
+      <h2 class="text-lg font-bold text-gray-800 mb-5">Your Details</h2>
+
+      <form id="register-form" novalidate class="flex flex-col gap-5">
+
+        <!-- Full Name -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1.5" for="fullName">
+            Full Name <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="fullName" name="fullName" placeholder="e.g. Ramakrishna Shetty"
+                 class="input-field" required />
+          <p class="error-msg hidden text-xs text-red-500 mt-1">Please enter your full name.</p>
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1.5" for="phone">
+            Phone Number <span class="text-red-500">*</span>
+          </label>
+          <div class="flex gap-2">
+            <span class="input-field w-14 text-center shrink-0 text-gray-500 bg-gray-100 cursor-default">+91</span>
+            <input type="tel" id="phone" name="phone" placeholder="9876543210"
+                   maxlength="10" class="input-field" required />
+          </div>
+          <p class="error-msg hidden text-xs text-red-500 mt-1">Enter a valid 10-digit phone number.</p>
+        </div>
+
+        <!-- Skill Type -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1.5" for="skill">
+            Skill Type <span class="text-red-500">*</span>
+          </label>
+          <select id="skill" name="skill" class="input-field" required>
+            <option value="" disabled selected>Select your skill…</option>
+            <option value="Carpenter">🪚 Carpenter</option>
+            <option value="Electrician">⚡ Electrician</option>
+            <option value="Plumber">🔧 Plumber</option>
+            <option value="Painter">🖌️ Painter</option>
+          </select>
+          <p class="error-msg hidden text-xs text-red-500 mt-1">Please select a skill.</p>
+        </div>
+
+        <!-- Area -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1.5" for="area">
+            Area in Mangaluru <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="area" name="area" placeholder="e.g. Bejai, Hampankatta, Kadri…"
+                 class="input-field" required />
+          <p class="error-msg hidden text-xs text-red-500 mt-1">Please enter your area.</p>
+        </div>
+
+        <!-- Experience + Daily Rate side by side on sm+ -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5" for="experience">
+              Experience (yrs) <span class="text-red-500">*</span>
+            </label>
+            <input type="number" id="experience" name="experience" placeholder="e.g. 5"
+                   min="0" max="50" class="input-field" required />
+            <p class="error-msg hidden text-xs text-red-500 mt-1">Enter years (0–50).</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5" for="dailyRate">
+              Daily Rate (₹) <span class="text-red-500">*</span>
+            </label>
+            <input type="number" id="dailyRate" name="dailyRate" placeholder="e.g. 650"
+                   min="100" class="input-field" required />
+            <p class="error-msg hidden text-xs text-red-500 mt-1">Enter a valid rate.</p>
+          </div>
+        </div>
+
+        <!-- Firebase error banner (hidden by default) -->
+        <div id="firebase-error" class="hidden bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3">
+          ⚠️ <span id="firebase-error-msg">Could not save data. Please try again.</span>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" id="submit-btn"
+                class="submit-btn text-white font-semibold text-sm py-3 px-6 rounded-full w-full mt-1">
+          <span id="btn-label">Submit Registration</span>
+          <!-- Spinner (hidden) -->
+          <svg id="btn-spinner" class="hidden animate-spin w-5 h-5 inline-block ml-2 -mt-0.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+          </svg>
+        </button>
+
+      </form>
+    </div>
+
+    <!-- ───── SUCCESS CARD (hidden) ───── -->
+    <div id="success-card" class="hidden pop-in bg-white rounded-2xl shadow-sm border border-green-100 p-8 text-center">
+      <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+        </svg>
+      </div>
+      <h2 class="text-xl font-extrabold text-gray-900 mb-2">Registration Successful!</h2>
+      <p class="text-green-700 font-semibold text-base mb-1">You are now registered on SkillBridge!</p>
+      <p class="text-gray-500 text-sm mb-6">Customers in your area will be able to find and book you shortly.</p>
+      <a href="index.html"
+         class="submit-btn inline-block text-white font-semibold text-sm py-3 px-8 rounded-full">
+        ← Back to Home
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ───── FOOTER ───── -->
+  <footer class="hero-bg text-green-200 text-center text-xs py-5 px-4 mt-4">
+    <p class="brand text-white font-semibold text-sm mb-1">Skill<span class="text-green-300">Bridge</span></p>
+    <p>Connecting skilled workers with homes & businesses in Mangaluru.</p>
+    <p class="mt-1 text-green-400">© 2026 SkillBridge. All rights reserved.</p>
+  </footer>
+
+  <!-- ───── FIREBASE + FORM LOGIC ───── -->
+  <script>
+    // ============================================================
+    //  🔥 PASTE YOUR FIREBASE CONFIG BELOW
+    //  Replace every value inside firebaseConfig with your own.
+    //  Get it from: Firebase Console → Project Settings → Your apps
+    // ============================================================
+    const firebaseConfig = {
+      apiKey:            "PASTE_YOUR_API_KEY_HERE",
+      authDomain:        "PASTE_YOUR_AUTH_DOMAIN_HERE",
+      databaseURL:       "PASTE_YOUR_DATABASE_URL_HERE",
+      projectId:         "PASTE_YOUR_PROJECT_ID_HERE",
+      storageBucket:     "PASTE_YOUR_STORAGE_BUCKET_HERE",
+      messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
+      appId:             "PASTE_YOUR_APP_ID_HERE"
+    };
+
+    // Initialise Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // ───── Helpers ─────
+    function showError(input, show) {
+      const msg = input.closest('div').querySelector('.error-msg');
+      if (!msg) return;
+      if (show) {
+        input.classList.add('border-red-400');
+        msg.classList.remove('hidden');
+      } else {
+        input.classList.remove('border-red-400');
+        msg.classList.add('hidden');
+      }
+    }
+
+    function validateField(el) {
+      const val = el.value.trim();
+      if (el.id === 'phone')      return /^[6-9]\d{9}$/.test(val);
+      if (el.id === 'experience') return val !== '' && +val >= 0 && +val <= 50;
+      if (el.id === 'dailyRate')  return val !== '' && +val >= 100;
+      return val !== '';
+    }
+
+    // Live validation
+    document.querySelectorAll('#register-form [required]').forEach(el => {
+      el.addEventListener('blur', () => showError(el, !validateField(el)));
+      el.addEventListener('input', () => { if (!validateField(el)) return; showError(el, false); });
+    });
+
+    // ───── Form Submit ─────
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const fields = document.querySelectorAll('#register-form [required]');
+      let valid = true;
+      fields.forEach(el => {
+        const ok = validateField(el);
+        showError(el, !ok);
+        if (!ok) valid = false;
+      });
+      if (!valid) return;
+
+      // UI → loading
+      const btn      = document.getElementById('submit-btn');
+      const label    = document.getElementById('btn-label');
+      const spinner  = document.getElementById('btn-spinner');
+      const errBanner = document.getElementById('firebase-error');
+      btn.disabled   = true;
+      label.textContent = 'Registering…';
+      spinner.classList.remove('hidden');
+      errBanner.classList.add('hidden');
+
+      const payload = {
+        fullName:   document.getElementById('fullName').value.trim(),
+        phone:      '+91' + document.getElementById('phone').value.trim(),
+        skill:      document.getElementById('skill').value,
+        area:       document.getElementById('area').value.trim(),
+        experience: Number(document.getElementById('experience').value),
+        dailyRate:  Number(document.getElementById('dailyRate').value),
+        registeredAt: new Date().toISOString()
+      };
+
+      try {
+        await db.ref('workers').push(payload);
+
+        // Success!
+        document.getElementById('form-section').classList.add('hidden');
+        const card = document.getElementById('success-card');
+        card.classList.remove('hidden');
+        // Re-trigger animation
+        card.style.animation = 'none';
+        card.offsetHeight;
+        card.style.animation = '';
+
+      } catch (err) {
+        console.error('Firebase error:', err);
+        document.getElementById('firebase-error-msg').textContent =
+          err.message || 'Could not save data. Check your Firebase config.';
+        errBanner.classList.remove('hidden');
+        btn.disabled = false;
+        label.textContent = 'Submit Registration';
+        spinner.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

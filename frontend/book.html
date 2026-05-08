@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Worker – SkillBridge</title>
+  <script src='https://cdn.tailwindcss.com'></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .brand, h1, h2 { font-family: 'Sora', sans-serif; }
+
+    .hero-bg {
+      background: linear-gradient(135deg, #0f4c35 0%, #1a7a55 50%, #0d3d2b 100%);
+    }
+
+    .confirm-btn {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .confirm-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(22, 163, 74, 0.45);
+    }
+    .confirm-btn:active { transform: translateY(0); }
+
+    .back-btn {
+      background: white;
+      color: #0f4c35;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .back-btn:hover { background: #f0fdf4; transform: translateY(-1px); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.5s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    @keyframes popIn {
+      0%   { opacity: 0; transform: scale(0.8); }
+      65%  { transform: scale(1.06); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .pop-in { animation: popIn 0.5s cubic-bezier(.34,1.56,.64,1) both; }
+
+    @keyframes pulse-ring {
+      0%   { box-shadow: 0 0 0 0 rgba(22,163,74,0.4); }
+      70%  { box-shadow: 0 0 0 14px rgba(22,163,74,0); }
+      100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+    }
+    .pulse-ring { animation: pulse-ring 1.8s ease infinite; }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+    }
+
+    .detail-row { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- ───── NAVBAR ───── -->
+  <nav class="hero-bg shadow-lg sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.472-2.472a3.75 3.75 0 0 0-5.304-5.304L5.88 9.902" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21l4.5-4.5" />
+          </svg>
+        </div>
+        <span class="brand text-white text-xl font-bold tracking-tight">Skill<span class="text-green-300">Bridge</span></span>
+      </a>
+      <a href="index.html" class="back-btn brand font-semibold text-sm px-4 py-2 rounded-full shadow">
+        ← Home
+      </a>
+    </div>
+  </nav>
+
+  <!-- ───── HEADER STRIP ───── -->
+  <div class="hero-bg text-white py-8 px-4 text-center">
+    <p class="text-green-300 text-xs font-semibold uppercase tracking-widest mb-1">Almost done</p>
+    <h1 class="text-2xl sm:text-3xl font-extrabold">Confirm Your Booking</h1>
+    <p class="text-green-100 text-sm mt-1">Review the details below before confirming.</p>
+  </div>
+
+  <!-- ───── MAIN CONTENT ───── -->
+  <main class="flex-1 max-w-lg mx-auto w-full px-4 py-8 flex flex-col gap-5">
+
+    <!-- Worker Card -->
+    <div class="fade-up bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+
+      <!-- Worker identity -->
+      <div class="flex items-center gap-4 mb-5">
+        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-2xl font-bold shrink-0 shadow-inner">R</div>
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 leading-tight">Ramesh Shetty</h2>
+          <span class="inline-block mt-1 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-0.5 rounded-full">⚡ Electrician</span>
+        </div>
+        <!-- Rating pill -->
+        <div class="ml-auto flex items-center gap-1 bg-amber-50 border border-amber-200 rounded-full px-3 py-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+          <span class="text-xs font-bold text-amber-700">4.7</span>
+        </div>
+      </div>
+
+      <div class="divider mb-5"></div>
+
+      <!-- Booking details -->
+      <div class="flex flex-col gap-3.5 text-sm">
+
+        <div class="detail-row">
+          <div class="flex items-center gap-2 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0z"/>
+            </svg>
+            Location
+          </div>
+          <span class="font-medium text-gray-800">Bejai, Mangaluru</span>
+        </div>
+
+        <div class="detail-row">
+          <div class="flex items-center gap-2 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375"/>
+            </svg>
+            Skill
+          </div>
+          <span class="font-medium text-gray-800">Electrician</span>
+        </div>
+
+        <div class="detail-row">
+          <div class="flex items-center gap-2 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/>
+            </svg>
+            Date
+          </div>
+          <span class="font-medium text-gray-800" id="booking-date">—</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="detail-row">
+          <span class="text-gray-500">Daily Rate</span>
+          <span class="text-2xl font-extrabold text-green-700">₹800<span class="text-sm font-normal text-gray-400"> / day</span></span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Note box -->
+    <div class="fade-up delay-1 flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 text-sm text-blue-700">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0zm-9-3.75h.008v.008H12V8.25z"/>
+      </svg>
+      <p>Payment is made directly to the worker. No advance required through SkillBridge.</p>
+    </div>
+
+    <!-- ── Confirm Button ── -->
+    <div id="btn-section" class="fade-up delay-2">
+      <button id="confirm-btn" onclick="confirmBooking()"
+              class="confirm-btn text-white font-bold text-base py-4 px-6 rounded-2xl w-full tracking-wide shadow-lg">
+        ✅ &nbsp;Confirm Booking
+      </button>
+    </div>
+
+    <!-- ── Success Message (hidden) ── -->
+    <div id="success-msg" class="hidden pop-in bg-green-50 border-2 border-green-200 rounded-2xl p-6 text-center">
+      <div class="pulse-ring w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+        </svg>
+      </div>
+      <p class="text-green-800 font-bold text-lg leading-snug">
+        Booking confirmed!<br/>
+        <span class="text-green-600 font-semibold text-base">Ramesh will call you within 1 hour.</span>
+      </p>
+      <p class="text-green-500 text-xs mt-2">A confirmation has been sent to your phone.</p>
+    </div>
+
+    <!-- Back to Home -->
+    <div class="fade-up delay-3 text-center pb-2">
+      <a href="index.html" class="inline-flex items-center gap-1.5 text-sm text-green-700 font-semibold hover:underline underline-offset-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+        </svg>
+        Back to Home
+      </a>
+    </div>
+
+  </main>
+
+  <!-- ───── FOOTER ───── -->
+  <footer class="hero-bg text-green-200 text-center text-xs py-5 px-4">
+    <p class="brand text-white font-semibold text-sm mb-1">Skill<span class="text-green-300">Bridge</span></p>
+    <p>Connecting skilled workers with homes & businesses in Mangaluru.</p>
+    <p class="mt-1 text-green-400">© 2026 SkillBridge. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Set today's date dynamically
+    const dateEl = document.getElementById('booking-date');
+    const today  = new Date();
+    dateEl.textContent = today.toLocaleDateString('en-IN', {
+      weekday: 'short', day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    // Confirm booking handler
+    function confirmBooking() {
+      const btn     = document.getElementById('btn-section');
+      const success = document.getElementById('success-msg');
+
+      // Button press effect then hide
+      btn.style.transition = 'opacity 0.3s, transform 0.3s';
+      btn.style.opacity    = '0';
+      btn.style.transform  = 'scale(0.95)';
+
+      setTimeout(() => {
+        btn.classList.add('hidden');
+        success.classList.remove('hidden');
+        // Scroll into view smoothly
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
