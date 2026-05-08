@@ -52,13 +52,13 @@ SkillBridge solves this by creating a digital marketplace for local trade servic
 
 # Tech Stack
 
-| Technology   | Purpose                   |
-| ------------ | ------------------------- |
-| Next.js      | Frontend Framework        |
-| Firebase     | Authentication & Database |
-| Razorpay API | Payment Integration       |
-| Leaflet Maps | Location Services         |
-| Tailwind CSS | UI Design                 |
+| Technology           | Purpose                      |
+| ---------------------| -----------------------------|
+| JavaScript/React     | Frontend Framework           |
+| Firebase             | Authentication & Database    |
+| Razorpay API         | Payment Integration          |
+| Leaflet Maps         | Location Services            |
+| Tailwind CSS         | UI Design                    |
 
 ---
 
