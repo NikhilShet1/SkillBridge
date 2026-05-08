@@ -41,7 +41,7 @@ export default function BookingsListPage() {
     const loaded = await loadRazorpay();
     if (!loaded) { alert('Razorpay failed to load'); return; }
     const options = {
-      key: 'rzp_test_XXXXXXXXXXXX', // Replace with your Razorpay test key
+      key: 'rzp_test_SmrUzTyeNywvFz', // Replace with your Razorpay test key
       amount: (gig.amount || 500) * 100,
       currency: 'INR',
       name: 'SkillBridge',
