@@ -75,9 +75,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col">
-      {/* Header */}
-      <div className="py-10 px-4 text-center">
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-lg">
+        {/* Header */}
+        <div className="text-center mb-8">
         <p className="text-green-400/60 text-xs font-semibold uppercase tracking-[0.2em] mb-2">Join the platform</p>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-white">Register as a Worker</h1>
         <p className="text-white/35 text-sm mt-2 max-w-xs mx-auto">Get booked by hundreds of customers in Mangaluru.</p>
@@ -96,11 +97,10 @@ export default function RegisterPage() {
       </div>
 
       {/* Form */}
-      <main className="flex-1 max-w-lg mx-auto w-full px-4 pb-8">
-        <div className="card p-6 sm:p-8 fade-up">
+      <div className="card p-6 sm:p-8 fade-up shadow-2xl">
           {step === 1 ? (
             <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4">
-              <h2 className="text-base font-bold text-white mb-1">Your Details</h2>
+              <h2 className="text-base font-bold text-white mb-1 text-center">Your Details</h2>
               <div>
                 <label className="block text-xs font-medium text-white/50 mb-1.5">Full Name <span className="text-red-400">*</span></label>
                 <input type="text" value={authForm.name} onChange={(e) => setAuthForm({ ...authForm, name: e.target.value })} placeholder="e.g. Ramakrishna Shetty" className="input-field" required />
@@ -124,7 +124,7 @@ export default function RegisterPage() {
             </form>
           ) : (
             <form onSubmit={handleServiceSubmit} className="flex flex-col gap-4">
-              <h2 className="text-base font-bold text-white mb-1">Your Service</h2>
+              <h2 className="text-base font-bold text-white mb-1 text-center">Your Service</h2>
               <div>
                 <label className="block text-xs font-medium text-white/50 mb-1.5">Skill Type <span className="text-red-400">*</span></label>
                 <select value={serviceForm.category} onChange={(e) => setServiceForm({ ...serviceForm, category: e.target.value })} className="input-field" required>
@@ -160,7 +160,7 @@ export default function RegisterPage() {
             </form>
           )}
         </div>
-      </main>
+      </div>
     </div>
   );
 }

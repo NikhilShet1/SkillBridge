@@ -53,14 +53,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex flex-col">
-      {/* Header */}
-      <div className="py-12 px-4 text-center">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-white/8 flex items-center justify-center border border-white/10">
-            <Wrench className="w-5 h-5 text-green-400" />
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="w-12 h-12 rounded-xl bg-white/8 flex items-center justify-center border border-white/10 shadow-lg shadow-black/20">
+              <Wrench className="w-6 h-6 text-green-400" />
+            </div>
           </div>
-        </div>
         <p className="text-green-400/60 text-xs font-semibold uppercase tracking-[0.2em] mb-2">
           {isSignUp ? 'Join the platform' : 'Welcome back'}
         </p>
@@ -71,12 +72,11 @@ export default function LoginPage() {
           {isSignUp
             ? 'Join SkillBridge and connect with your local community.'
             : 'Access your SkillBridge account.'}
-        </p>
-      </div>
+          </p>
+        </div>
 
-      {/* Form */}
-      <main className="flex-1 max-w-md mx-auto w-full px-4 pb-8">
-        <div className="card p-6 sm:p-8 fade-up">
+        {/* Form */}
+        <div className="card p-6 sm:p-8 fade-up shadow-2xl">
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {isSignUp && (
               <>
@@ -233,7 +233,7 @@ export default function LoginPage() {
             </p>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

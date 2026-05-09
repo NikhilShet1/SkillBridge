@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuthStore } from '../store/authStore';
-import { Clock, CheckCircle2, IndianRupee, Loader2, Star, Calendar, MessageSquare } from 'lucide-react';
+import { Clock, CheckCircle2, IndianRupee, Loader2, Star, Calendar, MessageSquare, MessageCircle } from 'lucide-react';
+import MessagePanel from '../components/booking/MessagePanel';
 
 function loadRazorpay() {
   return new Promise((resolve) => {
@@ -20,6 +21,7 @@ export default function BookingsListPage() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('active');
   const [reviewModal, setReviewModal] = useState(null);
+  const [messageModal, setMessageModal] = useState(null);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
   const [submittingReview, setSubmittingReview] = useState(false);
 
@@ -133,16 +135,24 @@ export default function BookingsListPage() {
                   <span className="flex items-center gap-1"><IndianRupee className="w-3 h-3" />₹{gig.amount || '—'}</span>
                   {gig.payment_status === 'paid' && <span className="flex items-center gap-1 text-green-400"><CheckCircle2 className="w-3 h-3" />Paid</span>}
                 </div>
-                {profile.role === 'customer' && gig.status === 'completed' && gig.payment_status !== 'paid' && (
-                  <button onClick={() => handlePayment(gig)} className="btn-primary w-full py-2.5 text-xs flex items-center justify-center gap-1.5">
-                    <IndianRupee className="w-3.5 h-3.5" /> Pay Now (UPI)
+                <div className="flex gap-2 mt-3">
+                  {profile.role === 'customer' && gig.status === 'completed' && gig.payment_status !== 'paid' && (
+                    <button onClick={() => handlePayment(gig)} className="btn-primary flex-1 py-2 text-xs flex items-center justify-center gap-1.5">
+                      <IndianRupee className="w-3.5 h-3.5" /> Pay Now
+                    </button>
+                  )}
+                  {profile.role === 'customer' && gig.payment_status === 'paid' && (
+                    <button onClick={() => setReviewModal(gig)} className="btn-secondary flex-1 py-2 text-xs flex items-center justify-center gap-1.5">
+                      <Star className="w-3.5 h-3.5" /> Review
+                    </button>
+                  )}
+                  <button 
+                    onClick={() => setMessageModal(gig)} 
+                    className="btn-secondary flex-1 py-2 text-xs flex items-center justify-center gap-1.5 bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 text-white"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 text-blue-400" /> Chat
                   </button>
-                )}
-                {profile.role === 'customer' && gig.payment_status === 'paid' && (
-                  <button onClick={() => setReviewModal(gig)} className="btn-secondary w-full py-2.5 text-xs flex items-center justify-center gap-1.5">
-                    <Star className="w-3.5 h-3.5" /> Leave a Review
-                  </button>
-                )}
+                </div>
               </div>
             ))}
           </div>
@@ -176,6 +186,10 @@ export default function BookingsListPage() {
             </form>
           </div>
         </div>
+      )}
+
+      {messageModal && (
+        <MessagePanel gig={messageModal} onClose={() => setMessageModal(null)} />
       )}
     </div>
   );
